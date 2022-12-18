@@ -28,8 +28,9 @@ pub enum Hand {
     Scissors,
 }
 
-/// A lazy static vector of all the possible hands.
+
 lazy_static! {
+    /// A lazy static vector of all the possible hands.
     pub static ref HANDS: Vec<Hand> = Hand::iter().collect();
     /// A lazy static vector of the names of all the possible hands.
     pub static ref HANDS_NAMES: Vec<String> = Hand::iter()

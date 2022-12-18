@@ -14,8 +14,9 @@ struct HandInput {
     number: usize,
 }
 
-/// A lazy static vector of all the possible hand inputs.
+
 lazy_static! {
+    /// A lazy static vector of all the possible hand inputs.
     static ref HAND_INPUTS: Vec<HandInput> = {
         HANDS.iter().enumerate().map(
             |(num, &hand)| {
@@ -96,15 +97,17 @@ impl Game {
         }
     }
 
+    /// Parses the given input string and returns the corresponding hand, or `None` if the input is invalid.
     fn parse_input(&self, input: String) -> Option<Hand> {
-       /// Parses the given input string and returns the corresponding hand, or `None` if the input is invalid.
+       
         let number: usize = input.trim().parse().ok()?;
 
         INPUT_MAP.get(&number).map(|hand_input| hand_input.hand)
     }
 
+    /// Plays a round of Scissors, Paper, Rock with the given hand and returns the computer's hand and the result of the round.
     fn play_hand(&mut self, hand: Hand) -> (Hand, HandResult) {
-         /// Plays a round of Scissors, Paper, Rock with the given hand and returns the computer's hand and the result of the round.
+         
         let cpu_hand = random_hand(&mut self.rng);
         let result = play_hand(hand, cpu_hand);
         let score_delta = match result {
