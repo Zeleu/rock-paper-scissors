@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["rock_paper_scissors"] = [{"text":"impl <a class=\"trait\" href=\"strum/trait.IntoEnumIterator.html\" title=\"trait strum::IntoEnumIterator\">IntoEnumIterator</a> for <a class=\"enum\" href=\"rock_paper_scissors/hands/enum.Hand.html\" title=\"enum rock_paper_scissors::hands::Hand\">Hand</a>","synthetic":false,"types":["rock_paper_scissors::hands::Hand"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

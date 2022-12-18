@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["main","The main entry point for the game."],["play_commandline","Plays the game of Scissors, Paper, Rock in the command line."]],"mod":[["game",""],["hands",""]]};
