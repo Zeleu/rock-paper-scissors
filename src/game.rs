@@ -7,13 +7,14 @@ use std::collections::HashMap;
 use std::io;
 use std::io::Write;
 
-
+/// A struct representing a player's hand choice, along with its label and number.
 struct HandInput {
     hand: Hand,
     label: String,
     number: usize,
 }
 
+/// A lazy static vector of all the possible hand inputs.
 lazy_static! {
     static ref HAND_INPUTS: Vec<HandInput> = {
         HANDS.iter().enumerate().map(
@@ -26,6 +27,7 @@ lazy_static! {
         ).collect()
     };
 
+/// A lazy static map of numbers to hand inputs.
     static ref INPUT_MAP: HashMap<usize, &'static HandInput> = {
         let mut input_map = HashMap::new();
 
@@ -36,6 +38,7 @@ lazy_static! {
         input_map
     };
 
+/// A lazy static string containing the prompt for hand inputs.
     static ref HAND_INPUT_PROMPT: String = {
         HAND_INPUTS
         .iter()
@@ -45,12 +48,17 @@ lazy_static! {
     };
 }
 
+/// A struct representing a game of Scissors, Paper, Rock.
 pub struct Game {
+    /// A random number generator for generating the computer's hand.
     rng: ThreadRng,
+
+    /// The current score of the game.
     score: isize,
 }
 
 impl Game {
+    /// Creates a new game with a zero score.
     pub fn new() -> Game {
         Game {
             rng: thread_rng(),
@@ -58,6 +66,7 @@ impl Game {
         }
     }
 
+    /// Runs the game loop, allowing the player to choose a hand and playing a round against the computer. The game ends when the player quits or an error occurs.
     pub fn game_loop(&mut self) {
         println!("=== {} Game ===\n", HANDS_NAMES.join(" "));
         println!("Any non-move input quits.\n");
@@ -73,7 +82,7 @@ impl Game {
 
         println!("Game over.");
     }
-
+/// Prompts the player to choose a hand and returns it, or `None` if an error occurs or the player quits.
     fn choose_hand(&self) -> Option<Hand> {
         print!("Your move ({})? >> ", *HAND_INPUT_PROMPT);
 
@@ -88,12 +97,14 @@ impl Game {
     }
 
     fn parse_input(&self, input: String) -> Option<Hand> {
+       /// Parses the given input string and returns the corresponding hand, or `None` if the input is invalid.
         let number: usize = input.trim().parse().ok()?;
 
         INPUT_MAP.get(&number).map(|hand_input| hand_input.hand)
     }
 
     fn play_hand(&mut self, hand: Hand) -> (Hand, HandResult) {
+         /// Plays a round of Scissors, Paper, Rock with the given hand and returns the computer's hand and the result of the round.
         let cpu_hand = random_hand(&mut self.rng);
         let result = play_hand(hand, cpu_hand);
         let score_delta = match result {

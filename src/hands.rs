@@ -6,29 +6,40 @@ use lazy_static::lazy_static;
 use self::Hand::*;
 use self::HandResult::*;
 
-
+/// The result of a round of Scissors, Paper, Rock.
 #[derive(Debug, Eq, PartialEq, Display)]
 pub enum HandResult {
+    /// The player won the round.
     Win,
+    /// The player lost the round.
     Lose,
+    /// The round was a draw.
     Draw,
 }
 
+/// A player's hand choice in a round of Scissors, Paper, Rock.
 #[derive(Copy, Clone, Debug, Eq, PartialEq, EnumIter, Display)]
 pub enum Hand {
+    /// Rock.
     Rock,
+    /// Paper.
     Paper,
+    /// Scissors.
     Scissors,
 }
 
+/// A lazy static vector of all the possible hands.
 lazy_static! {
     pub static ref HANDS: Vec<Hand> = Hand::iter().collect();
+    /// A lazy static vector of the names of all the possible hands.
     pub static ref HANDS_NAMES: Vec<String> = Hand::iter()
                                               .map(|hand| hand.to_string())
                                               .collect();
 }
 
+/// A trait for hands that defines the hand that beats them.
 pub trait Beats {
+    /// Returns the hand that beats `self`.
     fn beats(&self) -> Self;
 }
 
@@ -43,6 +54,10 @@ impl Beats for Hand {
     }
 }
 
+/// Determines the result of two hands being played against each other.
+/// * `own_hand` - The hand being played.  
+/// * `other_hand` - The opponent's hand.
+/// # Returns the result of the hands being played, as a `HandResult`./// Plays a round of Scissors, Paper, Rock with the given hands and returns the result.
 pub fn play_hand(own_hand: Hand, other_hand: Hand) -> HandResult {
     let (own_beats, other_beats) = (own_hand.beats(), other_hand.beats());
 
@@ -52,7 +67,9 @@ pub fn play_hand(own_hand: Hand, other_hand: Hand) -> HandResult {
         _                            => Draw,
     }
 }
-
+/// Generates a random hand.
+/// * `mut rng` - A mutable reference to a random number generator.
+/// # Returns A randomly generated `Hand`.
 pub fn random_hand(mut rng: &mut ThreadRng) -> Hand {
     *HANDS.choose(&mut rng).unwrap()
 }
